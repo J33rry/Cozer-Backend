@@ -53,33 +53,33 @@ app.use("/health", (req, res) => {
 
 // CRON JOBS
 // Update profiles daily at 12:01 AM
-// cron.schedule("1 0 * * *", async () => {
-//     console.log("⏰ Starting daily profile update...");
-//     try {
-//         await updateProfile();
-//         console.log("✅ Daily profile update completed.");
-//     } catch (error) {
-//         console.error("❌ Cron job failed:", error);
-//     }
-// });
-// // check for upcoming contests every 30 minutes
-// cron.schedule("*/30 * * * *", async () => {
-//     console.log("⏰ Checking for upcoming contests...");
-//     try {
-//         await checkUpcomingContests();
-//     } catch (error) {
-//         console.error("❌ Cron job failed:", error);
-//     }
-// });
-// // Send daily problem notifications every 30 minutes
-// cron.schedule("*/30 * * * *", async () => {
-//     console.log("Checking for notifications");
-//     try {
-//         await dailyProblem();
-//     } catch (error) {
-//         console.error("❌ Cron job failed:", error);
-//     }
-// });
+cron.schedule("1 0 * * *", async () => {
+    console.log("⏰ Starting daily profile update...");
+    try {
+        await updateProfile();
+        console.log("✅ Daily profile update completed.");
+    } catch (error) {
+        console.error("❌ Cron job failed:", error);
+    }
+});
+// check for upcoming contests every 30 minutes
+cron.schedule("*/30 * * * *", async () => {
+    console.log("⏰ Checking for upcoming contests...");
+    try {
+        await checkUpcomingContests();
+    } catch (error) {
+        console.error("❌ Cron job failed:", error);
+    }
+});
+// Send daily problem notifications every 30 minutes
+cron.schedule("*/30 * * * *", async () => {
+    console.log("Checking for notifications");
+    try {
+        await dailyProblem();
+    } catch (error) {
+        console.error("❌ Cron job failed:", error);
+    }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
