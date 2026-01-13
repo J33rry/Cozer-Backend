@@ -1,0 +1,5 @@
+.env
+cozer_service.json
+node_modules
+drizzle 
+scripts 
