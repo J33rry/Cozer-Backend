@@ -59,14 +59,17 @@ export const getProblemDetail = async (req, res) => {
     try {
         // ✅ CHANGE: Use .launch() for local browser instead of .connect()
         // Note: For Azure/Linux, you still need specific args (see Docker setup)
-        browser = await puppeteer.launch({
-            headless: "new", // or true
+        const browser = await puppeteer.launch({
+            // 'new' is the new headless mode, much faster/stable
+            headless: "new",
             args: [
-                "--no-sandbox",
+                "--no-sandbox", // ⚠️ REQUIRED for Docker/Azure
                 "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage", // Helps with memory on servers
+                "--disable-dev-shm-usage", // Prevents crashing on low memory
+                "--disable-gpu",
             ],
-            // executablePath: "/usr/bin/google-chrome" // Only needed in Docker if auto-detect fails
+            // If using the Dockerfile below, Chrome is installed here:
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
         });
 
         const page = await browser.newPage();

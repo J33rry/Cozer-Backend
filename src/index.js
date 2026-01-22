@@ -72,7 +72,7 @@ cron.schedule("*/30 * * * *", async () => {
     }
 });
 // Send daily problem notifications every 30 minutes
-cron.schedule("*/30 * * * *", async () => {
+cron.schedule("* * * * *", async () => {
     console.log("Checking for notifications");
     try {
         await dailyProblem();
@@ -81,7 +81,7 @@ cron.schedule("*/30 * * * *", async () => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

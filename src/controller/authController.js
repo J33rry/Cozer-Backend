@@ -110,7 +110,7 @@ export const updateProfile = async (req, res) => {
     } = req.body;
 
     const firebaseUid = req.user.user_id;
-    // console.log("req");
+    console.log("req");
 
     try {
         const updatedUserResults = await db
@@ -129,13 +129,16 @@ export const updateProfile = async (req, res) => {
         if (updatedUserResults.length === 0) {
             return res.status(404).json({ message: "User not found" });
         }
-        // console.log("db updated");
+        console.log("db updated");
         const internalUserId = updatedUserResults[0].id;
 
         if (leetcode_user) {
+            // const check = await fetch(
+            //     "https://alfa-leetcode-api.onrender.com/userProfile/" +
+            //         leetcode_user
+            // );
             const check = await fetch(
-                "https://alfa-leetcode-api.onrender.com/userProfile/" +
-                    leetcode_user
+                `https://alfa-leetcode-api.onrender.com/userProfile/${leetcode_user}`
             );
             const data = await check.json();
 
@@ -178,7 +181,7 @@ export const updateProfile = async (req, res) => {
                     },
                 });
         }
-        // console.log("leetcode updated");
+        console.log("leetcode updated");
         if (codeforces_user) {
             console.log(codeforces_user);
             const [inforesponse, ratingresponse] = await Promise.all([
@@ -208,11 +211,11 @@ export const updateProfile = async (req, res) => {
                     }
                 ),
             ]);
-            // console.log("data found");
+            console.log("data found");
 
             const infoData = inforesponse.data.result[0];
             const ratingData = ratingresponse.data.result;
-            // console.log(infoData);
+            console.log(infoData);
             // console.log(ratingData);
 
             if (!infoData || !ratingData) {
@@ -242,8 +245,8 @@ export const updateProfile = async (req, res) => {
                     },
                 });
         }
-        // console.log("codeforces updated");
-        // await db.insert();
+        console.log("codeforces updated");
+        await db.insert();
         res.json({
             status: "success",
             message: "Profile and stats updated successfully",
