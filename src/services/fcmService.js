@@ -1,10 +1,7 @@
 import admin from "firebase-admin";
 import { google } from "googleapis";
 import path from "path";
-// import { fileURLToPath } from "url";
-// import { dirname } from "path";
 
-import admin from "firebase-admin";
 import dotenv from "dotenv";
 
 dotenv.config();
