@@ -40,7 +40,7 @@ app.use(
     cors({
         origin: process.env.CLIENT_URL || "http://localhost:3000",
         credentials: true,
-    })
+    }),
 );
 
 app.use("/auth", authRoutes);
@@ -72,7 +72,7 @@ cron.schedule("*/30 * * * *", async () => {
     }
 });
 // Send daily problem notifications every 30 minutes
-cron.schedule("* * * * *", async () => {
+cron.schedule("*/30 * * * *", async () => {
     console.log("Checking for notifications");
     try {
         await dailyProblem();

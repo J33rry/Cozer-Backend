@@ -1,16 +1,33 @@
 import admin from "firebase-admin";
 import { google } from "googleapis";
 import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+// import { fileURLToPath } from "url";
+// import { dirname } from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import admin from "firebase-admin";
+import dotenv from "dotenv";
 
-const firebaseConfig = path.join(__dirname, "../../cozer_service.json");
+dotenv.config();
+
+// 1. Handle the Private Key newlines for Azure/Docker compatibility
+const privateKey = process.env.FIREBASE_PRIVATE_KEY
+    ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")
+    : undefined;
+
+if (!privateKey) {
+    console.error("CRITICAL: FIREBASE_PRIVATE_KEY is missing");
+}
+
+// 2. Initialize using environment variables
 admin.initializeApp({
-    credential: admin.credential.cert(firebaseConfig),
+    credential: admin.credential.cert({
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: privateKey,
+    }),
 });
+
+// export const db = admin.firestore();
 
 async function verifyToken(idToken) {
     try {
