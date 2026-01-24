@@ -16,7 +16,7 @@ export const authSync = async (req, res) => {
     try {
         const decodedToken = await verifyToken(idToken);
         // console.log(decodedToken);
-        // console.log(isAnonymous);
+        console.log(isAnonymous);
         const { uid, email, name } = decodedToken;
         const result = await db
             .insert(users)
@@ -54,7 +54,7 @@ export const authSync = async (req, res) => {
 
 export const getProfile = async (req, res) => {
     const userId = req.user.user_id;
-    // console.log(req.user);
+    console.log(req.user);
     try {
         const user = await db
             .select()
@@ -79,10 +79,6 @@ export const getProfile = async (req, res) => {
             .from(codeforces)
             .where(eq(codeforces.user_id, user[0].id))
             .limit(1);
-        // user[0].leetcode_stats =
-        //     leetcodeData.length > 0 ? leetcodeData[0] : null;
-        // user[0].codeforces_stats =
-        //     codeforcesData.length > 0 ? codeforcesData[0] : null;
         res.json({
             status: "success",
             profile: user[0],
@@ -133,12 +129,8 @@ export const updateProfile = async (req, res) => {
         const internalUserId = updatedUserResults[0].id;
 
         if (leetcode_user) {
-            // const check = await fetch(
-            //     "https://alfa-leetcode-api.onrender.com/userProfile/" +
-            //         leetcode_user
-            // );
             const check = await fetch(
-                `https://alfa-leetcode-api.onrender.com/userProfile/${leetcode_user}`
+                `https://alfa-leetcode-api.onrender.com/userProfile/${leetcode_user}`,
             );
             const data = await check.json();
 
@@ -195,7 +187,7 @@ export const updateProfile = async (req, res) => {
                             "Accept-Encoding": "gzip,deflate,compress",
                         },
                         timeout: 10000,
-                    }
+                    },
                 ),
 
                 axios.get(
@@ -208,7 +200,7 @@ export const updateProfile = async (req, res) => {
                             "Accept-Encoding": "gzip,deflate,compress",
                         },
                         timeout: 10000,
-                    }
+                    },
                 ),
             ]);
             console.log("data found");
